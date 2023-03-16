@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../modules/onboarding/screen/splash.screen.dart';
+import '../modules/onboarding/screens/splash.screen.dart';
 
 class AppRouter {
   static Map<String, WidgetBuilder> routes = {
