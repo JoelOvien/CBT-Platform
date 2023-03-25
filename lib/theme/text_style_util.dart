@@ -12,7 +12,7 @@ TextStyle boldStyle(
     fontWeight: FontWeight.bold,
     height: 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -28,7 +28,7 @@ TextStyle semiBoldStyle(
     fontWeight: FontWeight.w600,
     height: 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -45,7 +45,7 @@ TextStyle mediumStyle(
     fontWeight: FontWeight.w500,
     height: height ?? 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -63,7 +63,7 @@ TextStyle normalStyle(
     fontWeight: FontWeight.normal,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -79,7 +79,7 @@ TextStyle extraLightStyle(
     fontWeight: FontWeight.w200,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -95,6 +95,6 @@ TextStyle lightStyle(
     fontWeight: FontWeight.w300,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Noto Sans',
+    fontFamily: family ?? 'Inter',
   );
 }
