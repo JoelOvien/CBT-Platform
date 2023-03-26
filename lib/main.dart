@@ -10,7 +10,7 @@ import 'utilities/service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
+  await dotenv.load(fileName: ".env");
 
   setupLocator();
 

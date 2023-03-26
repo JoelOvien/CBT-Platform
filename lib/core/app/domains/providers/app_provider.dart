@@ -2,13 +2,14 @@
 
 import 'dart:async';
 
+import 'package:cbt_platform/modules/authentication/screens/login.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../utilities/custom_navigator.dart';
 import '../../../../utilities/helper_util.dart';
 import '../../../../utilities/service_locator.dart';
 import '../../db.dart';
-import '../../repositories/user_repository.dart';
 
 ChangeNotifierProvider<AppProvider> appProvider =
     ChangeNotifierProvider((ref) => AppProvider(ref: ref));
@@ -48,10 +49,10 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> goHome(BuildContext context) async {
     try {
-      final rawUser = await locator.get<UserRepository>().getUser();
-      if (rawUser != null) {
-        // _user = User.fromJson(rawUser.userData);
-      }
+      // final rawUser = await locator.get<UserRepository>().getUser();
+      // if (rawUser != null) {
+      //   // _user = User.fromJson(rawUser.userData);
+      // }
       // if (isLogged) {
       //   // await ref!.read(profileProvider).fetchLoggedinUser(context, fromLogin: false);
       //   await Navigator.pushNamedAndRemoveUntil(
@@ -60,7 +61,7 @@ class AppProvider extends ChangeNotifier {
       //     (route) => false,
       //   );
       // } else {
-      //   CustomNavigator.routeForEver(context, WelcomeScreen.routeName);
+      CustomNavigator.routeForEver(context, LoginScreen.routeName);
       // }
     } catch (e) {
       Helpers.logc(e.toString());

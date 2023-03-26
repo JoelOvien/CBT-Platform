@@ -5,6 +5,7 @@ import 'text_style_util.dart';
 
 class AppTheme {
   static ThemeData cbtTheme = ThemeData(
+    fontFamily: "Inter",
     primaryColor: AppColors.brandBlue,
     scaffoldBackgroundColor: AppColors.white,
     colorScheme: const ColorScheme(
