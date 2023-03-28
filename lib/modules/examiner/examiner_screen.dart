@@ -51,7 +51,7 @@ class _ExaminerScreenState extends State<ExaminerScreen> {
             ),
             const YMargin(47),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 customContentBox("Examinations",
                     "Upload and manage examinations to be taken and written by students."),
