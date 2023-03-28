@@ -75,6 +75,7 @@ class CustomTextField extends StatelessWidget {
           const YMargin(8),
           SizedBox(
             height: maxLines == null ? 50 : null,
+            width: screenWidth(context, percent: .454),
             child: Center(
               child: TextFormField(
                 controller: controller,

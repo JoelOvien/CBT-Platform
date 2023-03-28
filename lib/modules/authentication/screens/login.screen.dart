@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/app_colors.dart';
 import '../../../theme/text_style_util.dart';
+import '../../../utilities/custom_navigator.dart';
 import '../../../utilities/helper_util.dart';
 import '../../../utilities/margin_util.dart';
 import '../../../utilities/widgets/custom_button.dart';
 import '../../../utilities/widgets/custom_text_field.dart';
+import '../../student/screens/exam_selection.screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";
@@ -54,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               text: "Login",
               function: () {
                 Helpers.logc("hey");
+                CustomNavigator.route(context, ExamSelectionScreen.routeName);
               },
             ),
           ],

@@ -6,7 +6,7 @@ import '../../../core/app/domains/providers/app_provider.dart';
 import '../../../main.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  static const String routeName = "/splash_screen";
+  static const String routeName = "/splash";
 
   const SplashScreen({super.key});
 
@@ -25,7 +25,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final setup = ref.read(appProvider);
 
     await setup.initialise(context);
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
     await setup.goHome(navigatorKey.currentState!.context);
   }
 
