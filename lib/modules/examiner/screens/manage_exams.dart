@@ -5,6 +5,39 @@ import 'package:cbt_platform/utilities/margin_util.dart';
 import 'package:cbt_platform/utilities/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
+List dummyData = [
+  {
+    "Examination Date": "21/08/2022, 7:30 am",
+    "Candidates’ Level": "400",
+    "Course Code": "CSC 402",
+    "College": "Applied Sciences"
+  },
+  {
+    "Examination Date": "21/08/2022, 7:30 am",
+    "Candidates’ Level": "300",
+    "Course Code": "ZLY 306",
+    "College": "Basic Sciences"
+  },
+  {
+    "Examination Date": "21/08/2022, 7:30 am",
+    "Candidates’ Level": "200",
+    "Course Code": "AGY 208",
+    "College": "Agriculture"
+  },
+  {
+    "Examination Date": "21/08/2022, 7:30 am",
+    "Candidates’ Level": "100",
+    "Course Code": "TCS 112",
+    "College": "Applied Sciences"
+  },
+  {
+    "Examination Date": "21/08/2022, 7:30 am",
+    "Candidates’ Level": "PG(MSC)",
+    "Course Code": "PG MBA Cert 1",
+    "College": "Business & Finance"
+  }
+];
+
 class Manage extends StatefulWidget {
   static const String routeName = "/manage";
   const Manage({super.key});
@@ -57,7 +90,75 @@ class _ManageState extends State<Manage> {
                     width: 172,
                     function: () {})
               ],
-            )
+            ),
+            const YMargin(60),
+            DataTable(
+                dataRowHeight: 70,
+                columnSpacing: 130,
+                columns: [
+                  DataColumn(
+                    label: Text(
+                      "Examination Date",
+                      style: semiBoldStyle(20, AppColors.grey7c),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      "Candidates’ Level",
+                      style: semiBoldStyle(20, AppColors.grey7c),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      "Course Code",
+                      style: semiBoldStyle(20, AppColors.grey7c),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      "College",
+                      style: semiBoldStyle(20, AppColors.grey7c),
+                    ),
+                  ),
+                  const DataColumn(
+                    label: Text("test"),
+                  )
+                ],
+                rows: List.generate(dummyData.length, (index) {
+                  final item = dummyData[index];
+                  return DataRow(cells: [
+                    DataCell(
+                      Text(
+                        item["Examination Date"],
+                        style: normalStyle(14, AppColors.grey7c),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        item["Candidates’ Level"],
+                        style: normalStyle(14, AppColors.grey7c),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        item["Course Code"],
+                        style: normalStyle(14, AppColors.grey7c),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        item["College"],
+                        style: normalStyle(14, AppColors.grey7c),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        "view Details",
+                        style: normalStyle(14, AppColors.brandBlue),
+                      ),
+                    ),
+                  ]);
+                }))
           ],
         ),
       ),
