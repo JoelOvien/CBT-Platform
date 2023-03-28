@@ -58,8 +58,6 @@ flutter:
 
   assets:
     - assets/fonts/Inter/
-    - assets/images/
-    - assets/svgs/
     - assets/fonts/
     - .env
 
