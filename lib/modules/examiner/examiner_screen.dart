@@ -1,5 +1,6 @@
 import 'package:cbt_platform/core/app_constants.dart';
 import 'package:cbt_platform/theme/text_style_util.dart';
+import 'package:cbt_platform/utilities/widgets/custom_content_box.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
@@ -41,7 +42,28 @@ class _ExaminerScreenState extends State<ExaminerScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 23, horizontal: 66),
         child: Column(
-          children: [Text("data")],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const YMargin(69.0),
+            Text(
+              "Welcome Back, Joel Ovienloba!",
+              style: semiBoldStyle(20, AppColors.black1E),
+            ),
+            const YMargin(47),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                customContentBox("Examinations",
+                    "Upload and manage examinations to be taken and written by students."),
+                customContentBox("Candidates",
+                    "Manage all candidates and handle all candidate related issues."),
+                customContentBox("Results",
+                    "Manage and print all candidate results and manage all result related issues."),
+                customContentBox("Your Profile",
+                    "Manage your profile and all security / access related issues.")
+              ],
+            )
+          ],
         ),
       ),
     );
