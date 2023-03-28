@@ -3,8 +3,8 @@ import 'package:cbt_platform/theme/text_style_util.dart';
 import 'package:cbt_platform/utilities/widgets/custom_content_box.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/app_colors.dart';
-import '../../utilities/margin_util.dart';
+import '../../../theme/app_colors.dart';
+import '../../../utilities/margin_util.dart';
 
 class ExaminerScreen extends StatefulWidget {
   static const String routeName = "/examinerScreen";
