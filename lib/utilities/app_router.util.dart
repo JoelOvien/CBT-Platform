@@ -1,3 +1,4 @@
+import 'package:cbt_platform/modules/examiner/screens/course_examination_details.dart';
 import 'package:cbt_platform/modules/examiner/screens/edit_or_add_question.dart';
 import 'package:cbt_platform/modules/examiner/screens/examiner_screen.dart';
 import 'package:cbt_platform/modules/examiner/screens/manage_exams.dart';
@@ -12,6 +13,7 @@ class AppRouter {
     LoginScreen.routeName: (context) => const LoginScreen(),
     ExaminerScreen.routeName: (context) => const ExaminerScreen(),
     Edit.routeName: (context) => const Edit(),
-    Manage.routeName: (context) => const Manage()
+    Manage.routeName: (context) => const Manage(),
+    ExamDetails.routeName: (context) => const ExamDetails()
   };
 }
