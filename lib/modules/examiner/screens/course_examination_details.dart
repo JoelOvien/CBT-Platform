@@ -82,13 +82,13 @@ class _ExamDetailsState extends State<ExamDetails> {
                 Row(
                   children: [
                     Button(
-                        text: "Upload a new exam",
+                        text: "Edit exam details",
                         borderRadius: 50,
                         width: 172,
                         function: () {}),
                     const XMargin(20),
                     Button(
-                        text: "text",
+                        text: "Manage exam questions",
                         width: 172,
                         borderRadius: 50,
                         function: () {})
