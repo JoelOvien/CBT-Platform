@@ -51,7 +51,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
-      width: width ?? screenWidth(context, percent: 0.454),
+      width: width ?? 454,
       child: TextButton(
         style: TextButton.styleFrom(
           disabledBackgroundColor: AppColors.greyE6,

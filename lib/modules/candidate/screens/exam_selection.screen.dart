@@ -20,6 +20,7 @@ class _ExamSelectionScreenState extends State<ExamSelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: screenHeight(context, percent: 0.1),
         automaticallyImplyLeading: false,
         elevation: 2,
         centerTitle: false,
@@ -58,7 +59,7 @@ class _ExamSelectionScreenState extends State<ExamSelectionScreen> {
                 children: [
                   Expanded(
                     child: Wrap(
-                      runSpacing: 26,
+                      runSpacing: 36,
                       spacing: 19,
                       children: [
                         ...List.generate(
@@ -143,7 +144,7 @@ class _ExamSelectionScreenState extends State<ExamSelectionScreen> {
                         const YMargin(10),
                         Text(
                           "1. The new CBT is split into two parts: Part A covers numeracy and Part B covers clinical questions for nursing or midwifery.\n\n2. The fee for sitting both parts of the new CBT will stay at £83. If you need to resit the new CBT, the following fees will apply.\n\n3. If you choose to take the Test of Competence for return to practice, you need to first book the Test of Competence in your NMC Online account.\n\n4. Once you get a confirmation email from Pearson Vue that your account has been created, you can log in, book and pay for your exam.\n\n5. Goodluck!",
-                          style: mediumStyle(12, AppColors.black1E),
+                          style: mediumStyle(12, AppColors.black1E, height: 2.0),
                         ),
                       ],
                     ),

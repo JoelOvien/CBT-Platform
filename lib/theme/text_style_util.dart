@@ -6,12 +6,13 @@ TextStyle boldStyle(
   Color color, {
   TextDecoration? decoration,
   String? family,
+  double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.bold,
-    height: 1.2,
+    height: height ?? 1.2,
     decoration: decoration,
   );
 }
@@ -21,12 +22,13 @@ TextStyle semiBoldStyle(
   Color color, {
   TextDecoration? decoration,
   String? family,
+  double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w600,
-    height: 1.2,
+    height: height ?? 1.2,
     decoration: decoration,
   );
 }
@@ -38,7 +40,7 @@ TextStyle mediumStyle(
   String? family,
   double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w500,
@@ -53,13 +55,14 @@ TextStyle normalStyle(
   FontStyle? fontStyle,
   TextDecoration? decoration,
   String? family,
+  double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     fontStyle: fontStyle,
     color: color,
     fontWeight: FontWeight.normal,
-    height: 1.5,
+    height: height ?? 1.5,
     decoration: decoration,
   );
 }
@@ -69,12 +72,13 @@ TextStyle extraLightStyle(
   Color color, {
   TextDecoration? decoration,
   String? family,
+  double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w200,
-    height: 1.5,
+    height: height ?? 1.5,
     decoration: decoration,
   );
 }
@@ -84,12 +88,13 @@ TextStyle lightStyle(
   Color color, {
   TextDecoration? decoration,
   String? family,
+  double? height,
 }) {
-  return GoogleFonts.inter(
+  return GoogleFonts.manrope(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w300,
-    height: 1.5,
+    height: height ?? 1.5,
     decoration: decoration,
   );
 }
