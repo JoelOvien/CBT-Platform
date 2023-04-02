@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 TextStyle boldStyle(
   double size,
@@ -6,13 +7,12 @@ TextStyle boldStyle(
   TextDecoration? decoration,
   String? family,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.bold,
     height: 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -22,13 +22,12 @@ TextStyle semiBoldStyle(
   TextDecoration? decoration,
   String? family,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w600,
     height: 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -39,13 +38,12 @@ TextStyle mediumStyle(
   String? family,
   double? height,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w500,
     height: height ?? 1.2,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -56,14 +54,13 @@ TextStyle normalStyle(
   TextDecoration? decoration,
   String? family,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     fontStyle: fontStyle,
     color: color,
     fontWeight: FontWeight.normal,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -73,13 +70,12 @@ TextStyle extraLightStyle(
   TextDecoration? decoration,
   String? family,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w200,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
 
@@ -89,12 +85,11 @@ TextStyle lightStyle(
   TextDecoration? decoration,
   String? family,
 }) {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w300,
     height: 1.5,
     decoration: decoration,
-    fontFamily: family ?? 'Inter',
   );
 }
