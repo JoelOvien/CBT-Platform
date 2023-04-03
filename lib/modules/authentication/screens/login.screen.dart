@@ -38,14 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const YMargin(50),
             CustomTextField(
-              width: screenWidth(context, percent: 0.454),
               title: "Matric Number",
               controller: matricNo,
               hintText: '0000/0000',
             ),
             const YMargin(28),
             CustomTextField(
-              width: screenWidth(context, percent: 0.454),
               title: "Password",
               controller: password,
               hintText: 'min. 8 characters',
