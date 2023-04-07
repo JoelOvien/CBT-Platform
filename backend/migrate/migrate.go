@@ -1,11 +1,11 @@
 package main
 
 import (
+	"backend/cbt-backend/models"
 	"fmt"
 	"log"
 
-	"github.com/JoelOvien/CBT-Platform/blob/dev/backend/initializers"
-	"github.com/JoelOvien/CBT-Platform/blob/dev/backend/models"
+	"backend/cbt-backend/initializers"
 )
 
 // Here we load the environment variables and created the connection pool to Postgres db
@@ -20,6 +20,9 @@ func init() {
 
 func main() {
 	// We evoke this function provided by GORM to create the db migration and push changes to the database
-	initializers.DB.AutoMigrate(&models.User{})
+	initializers.DB.AutoMigrate(&models.AdminUser{})
+	initializers.DB.AutoMigrate(&models.CandidateUser{})
+	initializers.DB.AutoMigrate(&models.ExaminerUser{})
+
 	fmt.Println("🚀 Migration complete")
 }
