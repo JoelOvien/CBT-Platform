@@ -1,27 +1,40 @@
 package main
 
 import (
+	"backend/cbt-backend/initializers"
+	"github.com/gin-gonic/gin"
 	"log"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"net/http"
 )
 
-// CreateServer creates a new Fiber instance
-func CreateServer() *fiber.App {
-	app := fiber.New()
+var (
+	server *gin.Engine
+)
 
-	return app
+// Here we load the envs with Viper and create a connection pool to Postgres DB
+func init() {
+	config, err := initializers.LoadConfig(".")
+	if err != nil {
+		log.Fatal("? Could not load environment variables", err)
+	}
+
+	initializers.ConnectDB(&config)
+
+	// Here we create Gin router and assign it to server variable
+	server = gin.Default()
 }
 
 func main() {
-	app := CreateServer()
+	config, err := initializers.LoadConfig(".")
+	if err != nil {
+		log.Fatal("? Could not load environment variables", err)
+	}
 
-	app.Use(cors.New())
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Welcome to CBT")
+	router := server.Group("/api")
+	router.GET("/", func(ctx *gin.Context) {
+		message := "Welcome to my CBT app"
+		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(server.Run(":" + config.ServerPort))
 }
