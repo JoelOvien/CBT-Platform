@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
   CustomTextField({
     Key? key,
     this.height = 50,
-    this.width,
+    this.width = 454,
     required this.controller,
     this.title,
     this.prefixIcon,
