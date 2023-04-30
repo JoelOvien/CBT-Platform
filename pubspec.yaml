@@ -30,7 +30,7 @@ dependencies:
 
   # Network and API
   cached_network_image: ^3.2.0
-  http:
+  http: ^0.13.5
 
   #DB
   hive: ^2.2.3
@@ -46,6 +46,7 @@ dependencies:
 
   # fonts
   google_fonts: ^4.0.3
+
 
 dev_dependencies:
   flutter_test:

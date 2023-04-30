@@ -2,7 +2,7 @@
 
 import 'package:hive/hive.dart';
 
-// part 'user_entity.g.dart';
+part 'user_entity.g.dart';
 
 @HiveType(typeId: 1)
 class UserEntity {

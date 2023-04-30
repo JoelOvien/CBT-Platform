@@ -2,7 +2,7 @@
 
 import 'package:hive/hive.dart';
 
-import '../../../modules/authentication/entities/user_entity.dart';
+import '../../../modules/authentication/domains/entities/user_entity.dart';
 import '../domains/models/request_response_model.dart';
 import 'base_repository.dart';
 

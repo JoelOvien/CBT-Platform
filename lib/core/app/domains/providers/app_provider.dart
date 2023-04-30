@@ -9,7 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../utilities/custom_navigator.dart';
 import '../../../../utilities/helper_util.dart';
 import '../../../../utilities/service_locator.dart';
+import '../../../app_constants.dart';
 import '../../db.dart';
+import '../../repositories/preference_repository.dart';
+import '../../repositories/user_repository.dart';
+import '../models/user.model.dart';
 
 ChangeNotifierProvider<AppProvider> appProvider =
     ChangeNotifierProvider((ref) => AppProvider(ref: ref));
@@ -19,10 +23,12 @@ class AppProvider extends ChangeNotifier {
   Ref? ref;
 
   bool _isLogged = false;
+  UserModel _user = UserModel();
   bool _canUseBiometrics = false;
   bool _sendPushNotification = false;
   bool _sendEmailNotification = false;
 
+  UserModel get user => _user;
   bool get isLogged => _isLogged;
   bool get canUseBiometrics => _canUseBiometrics;
   bool get sendPushNotification => _sendPushNotification;
@@ -49,25 +55,21 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> goHome(BuildContext context) async {
     try {
-      // final rawUser = await locator.get<UserRepository>().getUser();
-      // if (rawUser != null) {
-      //   // _user = User.fromJson(rawUser.userData);
-      // }
-      // if (isLogged) {
-      //   // await ref!.read(profileProvider).fetchLoggedinUser(context, fromLogin: false);
-      //   await Navigator.pushNamedAndRemoveUntil(
-      //     context,
-      //     DashboardNavPage.routeName,
-      //     (route) => false,
-      //   );
-      // } else {
-      CustomNavigator.routeForEver(context, LoginScreen.routeName);
-      // }
+      final rawUser = await locator.get<UserRepository>().getUser();
+      if (rawUser != null) {
+        _user = UserModel.fromJson(rawUser.userData);
+      }
+      Helpers.logc("logged in => $isLogged");
+      if (isLogged) {
+        // await ref!.read(profileProvider).fetchLoggedinUser(context, fromLogin: false);
+      } else {
+        CustomNavigator.routeForEver(context, LoginScreen.routeName);
+      }
     } catch (e) {
       Helpers.logc(e.toString());
       resetUser();
-      // await locator.get<PreferenceRepository>().put(AppConstants.isLoggedIn, false);
-      //   CustomNavigator.routeForEver(context, WelcomeScreen.routeName);
+      await locator.get<PreferenceRepository>().put(AppConstants.isLoggedIn, false);
+      CustomNavigator.routeForEver(context, LoginScreen.routeName);
     }
   }
 

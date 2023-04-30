@@ -13,16 +13,13 @@ import '../error_handlers/error_exceptions.dart';
 class ApiClient {
   late http.Client client;
   String? accessToken;
-  String baseUrl = "https://i5y13t9dfc.execute-api.us-east-1.amazonaws.com/dev/bw";
-  String baseSocketUrl = 'wss://24u2u6u43k.execute-api.us-east-1.amazonaws.com/dev';
+  String baseUrl = "http://localhost:8000/api/";
   bool showError = false;
   ApiClient({
     http.Client? client,
     accessToken,
     this.showError = true,
-  })  : accessToken = accessToken ??
-            // locator.get<AppProvider>().accessToken.accessToken?.authenticationResult?.accessToken ??
-            "",
+  })  : accessToken = accessToken ?? "",
         client = client ?? http.Client();
 
   int _sessionExpiredResponse = 0;
