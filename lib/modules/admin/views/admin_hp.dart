@@ -1,20 +1,22 @@
-import 'package:cbt_platform/core/app_constants.dart';
-import 'package:cbt_platform/theme/text_style_util.dart';
-import 'package:cbt_platform/utilities/widgets/custom_content_box.dart';
+import 'package:cbt_platform/modules/admin/views/manage_examiners.dart';
+import 'package:cbt_platform/utilities/custom_navigator.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/app_constants.dart';
 import '../../../theme/app_colors.dart';
+import '../../../theme/text_style_util.dart';
 import '../../../utilities/margin_util.dart';
+import '../../../utilities/widgets/custom_content_box.dart';
 
-class ExaminerScreen extends StatefulWidget {
-  static const String routeName = "/examinerScreen";
-  const ExaminerScreen({super.key});
+class AdminHomePage extends StatefulWidget {
+  static const String routeName = '/admin-home-page';
+  const AdminHomePage({super.key});
 
   @override
-  State<ExaminerScreen> createState() => _ExaminerScreenState();
+  State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
-class _ExaminerScreenState extends State<ExaminerScreen> {
+class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,17 +52,22 @@ class _ExaminerScreenState extends State<ExaminerScreen> {
               style: semiBoldStyle(20, AppColors.black1E),
             ),
             const YMargin(47),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
+              spacing: 20,
+              runSpacing: 20,
               children: [
-                customContentBox("Examinations",
-                    "Upload and manage examinations to be taken and written by students."),
-                customContentBox("Candidates",
-                    "Manage all candidates and handle all candidate related issues."),
+                GestureDetector(
+                  onTap: () {
+                    CustomNavigator.route(context, ManageExaminersPage.routeName);
+                  },
+                  child: customContentBox("Examiners & Admins", "Manage other admins or examiners"),
+                ),
+                customContentBox(
+                    "Candidates", "Manage all candidates and handle all candidate related issues."),
                 customContentBox("Results",
                     "Manage and print all candidate results and manage all result related issues."),
-                customContentBox("Your Profile",
-                    "Manage your profile and all security / access related issues.")
+                customContentBox(
+                    "Your Profile", "Manage your profile and all security / access related issues.")
               ],
             )
           ],

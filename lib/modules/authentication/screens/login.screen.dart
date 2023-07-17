@@ -41,12 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const YMargin(50),
               CustomTextField(
-                title: "Matric Number",
+                title: "User-ID",
                 controller: matricNo,
                 hintText: '0000/0000',
                 validator: (_) {
                   if (_!.isEmpty) {
-                    return "Enter your matric number";
+                    return "Enter your id number";
                   }
                   return null;
                 },

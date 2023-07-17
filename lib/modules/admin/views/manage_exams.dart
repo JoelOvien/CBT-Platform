@@ -6,36 +6,11 @@ import 'package:cbt_platform/utilities/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 List dummyData = [
-  {
-    "Examination Date": "21/08/2022, 7:30 am",
-    "Candidates’ Level": "400",
-    "Course Code": "CSC 402",
-    "College": "Applied Sciences"
-  },
-  {
-    "Examination Date": "21/08/2022, 7:30 am",
-    "Candidates’ Level": "300",
-    "Course Code": "ZLY 306",
-    "College": "Basic Sciences"
-  },
-  {
-    "Examination Date": "21/08/2022, 7:30 am",
-    "Candidates’ Level": "200",
-    "Course Code": "AGY 208",
-    "College": "Agriculture"
-  },
-  {
-    "Examination Date": "21/08/2022, 7:30 am",
-    "Candidates’ Level": "100",
-    "Course Code": "TCS 112",
-    "College": "Applied Sciences"
-  },
-  {
-    "Examination Date": "21/08/2022, 7:30 am",
-    "Candidates’ Level": "PG(MSC)",
-    "Course Code": "PG MBA Cert 1",
-    "College": "Business & Finance"
-  }
+  {"Examination Date": "21/08/2022, 7:30 am", "Candidates’ Level": "400", "Course Code": "CSC 402", "College": "Applied Sciences"},
+  {"Examination Date": "21/08/2022, 7:30 am", "Candidates’ Level": "300", "Course Code": "ZLY 306", "College": "Basic Sciences"},
+  {"Examination Date": "21/08/2022, 7:30 am", "Candidates’ Level": "200", "Course Code": "AGY 208", "College": "Agriculture"},
+  {"Examination Date": "21/08/2022, 7:30 am", "Candidates’ Level": "100", "Course Code": "TCS 112", "College": "Applied Sciences"},
+  {"Examination Date": "21/08/2022, 7:30 am", "Candidates’ Level": "PG(MSC)", "Course Code": "PG MBA Cert 1", "College": "Business & Finance"}
 ];
 
 class Manage extends StatefulWidget {
@@ -84,16 +59,11 @@ class _ManageState extends State<Manage> {
                   "Manage your exam questions and times",
                   style: semiBoldStyle(20, AppColors.black1E),
                 ),
-                Button(
-                    text: "Upload a new exam",
-                    borderRadius: 50,
-                    width: 172,
-                    function: () {})
+                Button(text: "Upload a new exam", borderRadius: 50, width: 172, function: () {})
               ],
             ),
             const YMargin(60),
             DataTable(
-                dataRowHeight: 70,
                 columnSpacing: 130,
                 columns: [
                   DataColumn(

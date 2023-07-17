@@ -7,26 +7,10 @@ import 'package:cbt_platform/utilities/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 List dummyData = [
-  {
-    "Student's name": "Stephen Leroy",
-    "Candidates’ Level": "400",
-    "College": "Basic Sciences"
-  },
-  {
-    "Student's name": "Dada Desoye",
-    "Candidates’ Level": "400",
-    "College": "Agriculture"
-  },
-  {
-    "Student's name": "Michael Kareem",
-    "Candidates’ Level": "400",
-    "College": "Applied Sciences"
-  },
-  {
-    "Student's name": "Jordan Abdulgafaar",
-    "Candidates’ Level": "400",
-    "College": "Business & Finance"
-  }
+  {"Student's name": "Stephen Leroy", "Candidates’ Level": "400", "College": "Basic Sciences"},
+  {"Student's name": "Dada Desoye", "Candidates’ Level": "400", "College": "Agriculture"},
+  {"Student's name": "Michael Kareem", "Candidates’ Level": "400", "College": "Applied Sciences"},
+  {"Student's name": "Jordan Abdulgafaar", "Candidates’ Level": "400", "College": "Business & Finance"}
 ];
 
 class ExamDetails extends StatefulWidget {
@@ -81,17 +65,9 @@ class _ExamDetailsState extends State<ExamDetails> {
                 ),
                 Row(
                   children: [
-                    Button(
-                        text: "Edit exam details",
-                        borderRadius: 50,
-                        width: 172,
-                        function: () {}),
+                    Button(text: "Edit exam details", borderRadius: 50, width: 172, function: () {}),
                     const XMargin(20),
-                    Button(
-                        text: "Manage exam questions",
-                        width: 172,
-                        borderRadius: 50,
-                        function: () {})
+                    Button(text: "Manage exam questions", width: 172, borderRadius: 50, function: () {})
                   ],
                 )
               ],
@@ -140,7 +116,6 @@ class _ExamDetailsState extends State<ExamDetails> {
             ),
             const YMargin(30),
             DataTable(
-                dataRowHeight: 60,
                 columnSpacing: 130,
                 columns: [
                   DataColumn(

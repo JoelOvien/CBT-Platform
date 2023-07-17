@@ -2,6 +2,7 @@
 
 import 'dart:developer' as dev;
 
+import 'package:cbt_platform/utilities/snack_bar_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Key;
 import 'package:flutter/services.dart';
@@ -23,11 +24,11 @@ class Helpers {
 
   static Future<void> copyToClipboard({
     required BuildContext context,
-    String? copyValue,
+    required String copyValue,
     String? snackBarMessage,
   }) {
     return Clipboard.setData(ClipboardData(text: copyValue)).then((_) {
-      // UI.showSnack(context, "Copied!");
+      SnackbarUtil.showSnack(context, "Copied!");
     });
   }
 
