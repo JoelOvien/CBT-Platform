@@ -87,7 +87,7 @@ class ApiClient {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, {Map<String, dynamic>? data}) async {
+  Future<dynamic> post(String url, {dynamic data}) async {
     Helpers.logc(baseUrl + url);
     Helpers.logc(data.toString());
     var responseJson;

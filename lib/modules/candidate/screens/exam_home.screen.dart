@@ -8,12 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/text_style_util.dart';
-import '../../../utilities/custom_navigator.dart';
 import '../../../utilities/margin_util.dart';
 import '../../../utilities/timer.util.dart';
 import '../../../utilities/widgets/custom_button.dart';
 import '../domains/providers/candidate_exam_provider.dart';
-import 'exam_completed.screen.dart';
 
 class ExamHomeScreen extends ConsumerStatefulWidget {
   static const String routeName = "examHome";
@@ -73,8 +71,9 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                 Button(
                   borderRadius: 100,
                   text: "Submit your work",
+                  loading: candidateExamController.loadingSubmission,
                   function: () {
-                    CustomNavigator.routeForEver(context, ExamCompletedScreen.routeName);
+                    candidateExamController.submitAnswers();
                   },
                   width: screenWidth(context, percent: .100),
                 ),
@@ -186,85 +185,84 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                                 ),
                                 const YMargin(49),
                                 if (currentQuestion.answerTypeID == "1")
-                                  Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          optionButton(
-                                            data: "1. ${candidateExamController.selectedQuestionOptions[0]}",
-                                            selected:
-                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == candidateExamController.selectedQuestionOptions[0],
-                                            onPressed: () {
-                                              candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
-                                                userID: user.data?.userID ?? "",
-                                                questionID: currentQuestion.questionID,
-                                                correctAnswer: currentQuestion.correctAnswer,
-                                                courseCode: currentQuestion.courseCode,
-                                                semester: "S",
-                                                session: "2022/2023",
-                                                answerProvided: candidateExamController.selectedQuestionOptions[0],
-                                              );
-                                            },
-                                          ),
-                                          optionButton(
-                                            data: "2. ${candidateExamController.selectedQuestionOptions[1]}",
-                                            selected:
-                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == candidateExamController.selectedQuestionOptions[1],
-                                            onPressed: () {
-                                              candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
-                                                userID: user.data?.userID ?? "",
-                                                questionID: currentQuestion.questionID,
-                                                correctAnswer: currentQuestion.correctAnswer,
-                                                courseCode: currentQuestion.courseCode,
-                                                semester: "S",
-                                                session: "2022/2023",
-                                                answerProvided: candidateExamController.selectedQuestionOptions[1],
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      const YMargin(20),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          optionButton(
-                                            data: "3. ${candidateExamController.selectedQuestionOptions[2]}",
-                                            selected:
-                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == candidateExamController.selectedQuestionOptions[2],
-                                            onPressed: () {
-                                              candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
-                                                userID: user.data?.userID ?? "",
-                                                questionID: currentQuestion.questionID,
-                                                correctAnswer: currentQuestion.correctAnswer,
-                                                courseCode: currentQuestion.courseCode,
-                                                semester: "S",
-                                                session: "2022/2023",
-                                                answerProvided: candidateExamController.selectedQuestionOptions[2],
-                                              );
-                                            },
-                                          ),
-                                          optionButton(
-                                            data: "4. ${candidateExamController.selectedQuestionOptions[3]}",
-                                            selected:
-                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == candidateExamController.selectedQuestionOptions[3],
-                                            onPressed: () {
-                                              candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
-                                                userID: user.data?.userID ?? "",
-                                                questionID: currentQuestion.questionID,
-                                                correctAnswer: currentQuestion.correctAnswer,
-                                                courseCode: currentQuestion.courseCode,
-                                                semester: "S",
-                                                session: "2022/2023",
-                                                answerProvided: candidateExamController.selectedQuestionOptions[3],
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
+                                  Consumer(builder: (context, ref, __) {
+                                    final optionButtonValue = ref.watch(candidateExamProvider).selectedQuestionOptions;
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            optionButton(
+                                              data: "1. ${optionButtonValue[0]}",
+                                              selected: candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == optionButtonValue[0],
+                                              onPressed: () {
+                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
+                                                  userID: user.data?.userID ?? "",
+                                                  questionID: currentQuestion.questionID,
+                                                  correctAnswer: currentQuestion.correctAnswer,
+                                                  courseCode: currentQuestion.courseCode,
+                                                  semester: "S",
+                                                  session: "2022/2023",
+                                                  answerProvided: optionButtonValue[0],
+                                                );
+                                              },
+                                            ),
+                                            optionButton(
+                                              data: "2. ${optionButtonValue[1]}",
+                                              selected: candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == optionButtonValue[1],
+                                              onPressed: () {
+                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
+                                                  userID: user.data?.userID ?? "",
+                                                  questionID: currentQuestion.questionID,
+                                                  correctAnswer: currentQuestion.correctAnswer,
+                                                  courseCode: currentQuestion.courseCode,
+                                                  semester: "S",
+                                                  session: "2022/2023",
+                                                  answerProvided: optionButtonValue[1],
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        const YMargin(20),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            optionButton(
+                                              data: "3. ${optionButtonValue[2]}",
+                                              selected: candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == optionButtonValue[2],
+                                              onPressed: () {
+                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
+                                                  userID: user.data?.userID ?? "",
+                                                  questionID: currentQuestion.questionID,
+                                                  correctAnswer: currentQuestion.correctAnswer,
+                                                  courseCode: currentQuestion.courseCode,
+                                                  semester: "S",
+                                                  session: "2022/2023",
+                                                  answerProvided: optionButtonValue[2],
+                                                );
+                                              },
+                                            ),
+                                            optionButton(
+                                              data: "4. ${optionButtonValue[3]}",
+                                              selected: candidateExamController.answerBank[candidateExamController.selectedQuestionNumber].answerProvided == optionButtonValue[3],
+                                              onPressed: () {
+                                                candidateExamController.answerBank[candidateExamController.selectedQuestionNumber] = AnswerBankModel(
+                                                  userID: user.data?.userID ?? "",
+                                                  questionID: currentQuestion.questionID,
+                                                  correctAnswer: currentQuestion.correctAnswer,
+                                                  courseCode: currentQuestion.courseCode,
+                                                  semester: "S",
+                                                  session: "2022/2023",
+                                                  answerProvided: optionButtonValue[3],
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  })
                                 else
                                   CustomTextField(
                                     controller: TextEditingController(),
@@ -328,7 +326,7 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                               children: [
                                 Container(
                                   width: 284,
-                                  height: 235,
+                                  height: 225,
                                   padding: const EdgeInsets.fromLTRB(10, 20, 40, 50),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -345,7 +343,7 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                                 ),
                                 Container(
                                   width: 325,
-                                  height: 222,
+                                  height: 212,
                                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -385,14 +383,6 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                                             style: mediumStyle(12, AppColors.black1E),
                                           ),
                                         ],
-                                      ),
-                                      const Spacer(),
-                                      Button(
-                                        text: "Report a Problem",
-                                        backgroundColor: AppColors.white,
-                                        borderColor: AppColors.brandBlue,
-                                        textColor: AppColors.brandBlue,
-                                        function: () {},
                                       ),
                                     ],
                                   ),

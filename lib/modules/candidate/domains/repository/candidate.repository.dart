@@ -9,6 +9,7 @@ import '../../../../core/app/domains/models/request_response_model.dart';
 import '../../../../core/app/repositories/base_repository.dart';
 import '../../../../utilities/helper_util.dart';
 import '../../../../utilities/service_locator.dart';
+import '../models/answer_bank.model.dart';
 
 class CandidateRepository extends BaseRepository {
   @override
@@ -54,6 +55,33 @@ class CandidateRepository extends BaseRepository {
       client.accessToken = accessToken;
       final List<dynamic> response = await client.get("${AppEndpoints.fetchQuestions}?courseCode=$courseCode&limit=10").then((response) => response["questions"]);
       final List<QuestionBankModel> questions = response.map<QuestionBankModel>((e) => QuestionBankModel.fromJson(e)).toList();
+
+      return RequestRes(response: questions);
+    } catch (e) {
+      return showError(e);
+    }
+  }
+
+  Future<RequestRes> submitAnswers(
+    String accessToken,
+    List<AnswerBankModel> answers,
+  ) async {
+    final client = locator.get<ApiClient>();
+
+    try {
+      client.accessToken = accessToken;
+
+      // Convert answers list to a list of JSON objects
+      final List<Map<String, dynamic>> answersJsonList = answers.map((answer) => answer.toJson()).toList();
+
+      // Send the request with the converted JSON data
+      final List<dynamic> response = await client
+          .post(
+            AppEndpoints.submitAnswers,
+            data: answersJsonList, // Include 'answers' key in the request data
+          )
+          .then((response) => response["questions"]);
+      final List<AnswerBankModel> questions = response.map<AnswerBankModel>((e) => AnswerBankModel.fromJson(e)).toList();
 
       return RequestRes(response: questions);
     } catch (e) {

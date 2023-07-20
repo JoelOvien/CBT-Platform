@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/app/domains/models/request_response_model.dart';
+import '../../../../utilities/custom_navigator.dart';
 import '../../../../utilities/service_locator.dart';
 import '../../../../utilities/snack_bar_util.dart';
+import '../../screens/exam_completed.screen.dart';
 
 ChangeNotifierProvider<CandidateExamProvider> candidateExamProvider = ChangeNotifierProvider((ref) => CandidateExamProvider(ref: ref));
 
@@ -20,11 +22,10 @@ class CandidateExamProvider extends ChangeNotifier {
   CandidateExamProvider({required this.ref});
   Ref ref;
 
-  bool _passVisible = false;
-  bool _passRem = false;
   bool _loading = false;
   bool _loadingQuestions = false;
   bool _loadingRegisteredCourses = false;
+  bool _loadingSubmission = false;
 
   int _selectedQuestionNumber = 0;
 
@@ -38,8 +39,7 @@ class CandidateExamProvider extends ChangeNotifier {
   bool get loading => _loading;
   bool get loadingRegisteredCourses => _loadingRegisteredCourses;
   bool get loadingQuestions => _loadingQuestions;
-  bool get passVisible => _passVisible;
-  bool get passRem => _passRem;
+  bool get loadingSubmission => _loadingSubmission;
 
   int get selectedQuestionNumber => _selectedQuestionNumber;
 
@@ -56,19 +56,19 @@ class CandidateExamProvider extends ChangeNotifier {
   }
 
   set selectedQuestionNumber(int state) {
-    try {
-      _selectedQuestionNumber = state;
-      notifyListeners();
-      if (questionsBank[_selectedQuestionNumber].answerTypeID == "1") {
-        selectedQuestionOptions.add(questionsBank[_selectedQuestionNumber].answer1 ?? "");
-        selectedQuestionOptions.add(questionsBank[_selectedQuestionNumber].answer2 ?? "");
-        selectedQuestionOptions.add(questionsBank[_selectedQuestionNumber].answer3 ?? "");
-        selectedQuestionOptions.add(questionsBank[_selectedQuestionNumber].answer4 ?? "");
-      }
-      notifyListeners();
-    } catch (e) {
-      Helpers.logc("Failed to update question number $e");
+    _selectedQuestionNumber = state;
+    notifyListeners();
+    populateQuestionOptions();
+  }
+
+  void populateQuestionOptions() {
+    if (questionsBank[selectedQuestionNumber].answerTypeID == "1") {
+      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer1 ?? "");
+      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer2 ?? "");
+      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer3 ?? "");
+      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer4 ?? "");
     }
+    notifyListeners();
   }
 
   int linearCongruential(int seed, int a, int c, int m) {
@@ -106,18 +106,13 @@ class CandidateExamProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set passVisible(bool state) {
-    _passVisible = state;
-    notifyListeners();
-  }
-
-  set passRem(bool state) {
-    _passRem = state;
-    notifyListeners();
-  }
-
   set loading(bool state) {
     _loading = state;
+    notifyListeners();
+  }
+
+  set loadingSubmission(bool state) {
+    _loadingSubmission = state;
     notifyListeners();
   }
 
@@ -160,13 +155,36 @@ class CandidateExamProvider extends ChangeNotifier {
       } else {
         questionsBank.clear();
         questionsBank.addAll(res.response as List<QuestionBankModel>);
-        selectedQuestionNumber = 0;
         answerBank = List.generate(questionsBank.length, (_) => AnswerBankModel());
+        selectedQuestionNumber = 0;
         notifyListeners();
       }
     } catch (e) {
       Helpers.logc(e);
       loadingQuestions = false;
+    }
+  }
+
+  Future<void> submitAnswers() async {
+    try {
+      final user = ref.read(appProvider).user;
+
+      loadingSubmission = true;
+      final RequestRes res = await locator.get<CandidateRepository>().submitAnswers(
+            user.accessToken ?? "",
+            answerBank,
+          );
+      loadingQuestions = false;
+
+      if (res.hasError()) {
+        SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, res.error!.message);
+      } else {
+        CustomNavigator.routeForEver(navigatorKey.currentState!.context, ExamCompletedScreen.routeName);
+      }
+      loadingSubmission = false;
+    } catch (e) {
+      loadingSubmission = false;
+      Helpers.logc(e);
     }
   }
 }
