@@ -1,71 +1,84 @@
 class UserModel {
   String? accessToken;
+  Data? data;
   String? refreshToken;
   String? status;
-  User? user;
 
-  UserModel({this.accessToken, this.refreshToken, this.status, this.user});
+  UserModel({this.accessToken, this.data, this.refreshToken, this.status});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     refreshToken = json['refresh_token'];
     status = json['status'];
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['access_token'] = accessToken;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
     data['refresh_token'] = refreshToken;
     data['status'] = status;
-    if (user != null) {
-      data['user'] = user!.toJson();
-    }
     return data;
   }
 }
 
-class User {
-  String? sId;
-  String? name;
-  String? idNumber;
-  String? email;
+class Data {
+  String? userID;
+  String? surname;
+  String? firstName;
+  String? emailAddress;
+  String? userStatus;
   String? userType;
-  String? createdAt;
-  String? updatedAt;
-  String? userId;
+  String? dateCreated;
+  String? dateUpdated;
+  String? lastAccessDate;
+  String? departmentID;
+  String? role;
 
-  User(
-      {this.sId,
-      this.name,
-      this.idNumber,
-      this.email,
-      this.userType,
-      this.createdAt,
-      this.updatedAt,
-      this.userId});
+  Data({
+    this.userID,
+    this.surname,
+    this.firstName,
+    this.emailAddress,
+    this.userStatus,
+    this.userType,
+    this.dateCreated,
+    this.dateUpdated,
+    this.lastAccessDate,
+    this.departmentID,
+    this.role,
+  });
 
-  User.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    idNumber = json['id_number'];
-    email = json['email'];
-    userType = json['user_type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    userId = json['user_id'];
+  Data.fromJson(Map<String, dynamic> json) {
+    userID = json['UserID'];
+    surname = json['Surname'];
+    firstName = json['FirstName'];
+    emailAddress = json['EmailAddress'];
+    userStatus = json['UserStatus'];
+    userType = json['UserType'];
+    dateCreated = json['DateCreated'];
+    dateUpdated = json['DateUpdated'];
+    lastAccessDate = json['LastAccessDate'];
+    departmentID = json['DepartmentID'];
+    role = json['Role'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['name'] = name;
-    data['id_number'] = idNumber;
-    data['email'] = email;
-    data['user_type'] = userType;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['user_id'] = userId;
+    data['UserID'] = userID;
+    data['Surname'] = surname;
+    data['FirstName'] = firstName;
+    data['EmailAddress'] = emailAddress;
+    data['UserStatus'] = userStatus;
+    data['UserType'] = userType;
+    data['DateCreated'] = dateCreated;
+    data['DateUpdated'] = dateUpdated;
+    data['LastAccessDate'] = lastAccessDate;
+    data['DepartmentID'] = departmentID;
+    data['Role'] = role;
     return data;
   }
 }

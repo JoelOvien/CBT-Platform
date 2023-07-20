@@ -1,3 +1,4 @@
+import 'package:cbt_platform/modules/candidate/domains/repository/candidate.repository.dart';
 import 'package:get_it/get_it.dart';
 
 import '../core/api/api_client.dart';
@@ -23,10 +24,12 @@ void setupLocator() {
   locator.registerLazySingleton<PreferenceRepository>(PreferenceRepository.new);
   locator.registerLazySingleton<AuthRepository>(AuthRepository.new);
   locator.registerLazySingleton<UserRepository>(UserRepository.new);
+  locator.registerLazySingleton<CandidateRepository>(CandidateRepository.new);
 }
 
 List<BaseRepository> repositories = [
   locator.get<PreferenceRepository>(),
   locator.get<UserRepository>(),
   locator.get<AuthRepository>(),
+  locator.get<CandidateRepository>(),
 ];

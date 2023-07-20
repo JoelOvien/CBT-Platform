@@ -1,3 +1,6 @@
+import 'package:cbt_platform/modules/authentication/domains/providers/login_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/api/api_client.dart';
 import '../../../core/api/endpoints.dart';
 import '../../../core/app/domains/models/request_response_model.dart';
@@ -8,16 +11,18 @@ import '../../../utilities/service_locator.dart';
 
 class AuthRepository extends BaseRepository {
   AuthRepository();
+  @override
+  Future<void> clear(Ref ref) async {
+    ref.invalidate(loginProvider);
+  }
 
   @override
-  Future<void> clear() async {}
+  Future<RequestRes> showError(Object e, {String method = "", dynamic data}) async {
+    final String error = Helpers.parseError(e);
 
-  @override
-  Future<RequestRes> showError(dynamic error) async {
-    final e = Helpers.parseError(error);
-    Helpers.logc(e, error: true);
+    Helpers.logc("$method => $error", error: true);
     return RequestRes(
-      error: ErrorRes(message: e),
+      error: ErrorRes(message: error, data: data),
     );
   }
 
@@ -31,7 +36,7 @@ class AuthRepository extends BaseRepository {
       final response = await client.post(
         AppEndpoints.login,
         data: {
-          "id_number": idNumber,
+          "UserID": idNumber,
           "password": password,
         },
       );

@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cbt_platform/core/app/domains/models/user.model.dart';
+import 'package:cbt_platform/core/app/domains/providers/app_provider.dart';
 import 'package:cbt_platform/modules/admin/views/admin_hp.dart';
 import 'package:cbt_platform/modules/authentication/domains/entities/user_enum.dart';
+import 'package:cbt_platform/modules/candidate/domains/providers/candidate_exam_provider.dart';
 import 'package:cbt_platform/modules/candidate/screens/exam_selection.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,8 +17,7 @@ import '../../../../utilities/snack_bar_util.dart';
 import '../../../admin/views/examiner_screen.dart';
 import '../../repository/auth_repository.dart';
 
-ChangeNotifierProvider<LoginProvider> loginProvider =
-    ChangeNotifierProvider((ref) => LoginProvider(ref: ref));
+ChangeNotifierProvider<LoginProvider> loginProvider = ChangeNotifierProvider((ref) => LoginProvider(ref: ref));
 
 class LoginProvider extends ChangeNotifier {
   LoginProvider({required this.ref});
@@ -77,11 +78,14 @@ class LoginProvider extends ChangeNotifier {
 
       if (routeAfter) {
         final user = loginRes.response as UserModel;
-        if (user.user?.userType == UserEnum.ADMIN.name) {
+        await ref.read(appProvider).onLogin(user, context);
+
+        if (user.data?.userType == UserEnum.ADMIN.name) {
           CustomNavigator.routeForEver(context, AdminHomePage.routeName);
-        } else if (user.user?.userType == UserEnum.STUDENT.name) {
+        } else if (user.data?.userType == UserEnum.STUDENT.name) {
+          ref.read(candidateExamProvider).fetchAllRegisteredCoursesForStudent(context);
           CustomNavigator.route(context, ExamSelectionScreen.routeName);
-        } else if (user.user?.userType == UserEnum.EXAMINER.name) {
+        } else if (user.data?.userType == UserEnum.EXAMINER.name) {
           CustomNavigator.route(context, ExaminerScreen.routeName);
         } else {
           SnackbarUtil.showErrorSnack(context, "Invalid user type");

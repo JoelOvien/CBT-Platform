@@ -15,8 +15,7 @@ import '../../repositories/preference_repository.dart';
 import '../../repositories/user_repository.dart';
 import '../models/user.model.dart';
 
-ChangeNotifierProvider<AppProvider> appProvider =
-    ChangeNotifierProvider((ref) => AppProvider(ref: ref));
+ChangeNotifierProvider<AppProvider> appProvider = ChangeNotifierProvider((ref) => AppProvider(ref: ref));
 
 class AppProvider extends ChangeNotifier {
   AppProvider({this.ref});
@@ -73,7 +72,20 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> onLogin(
+    UserModel user,
+    BuildContext context, {
+    bool shouldSetup = true,
+  }) async {
+    _user = user;
+    if (shouldSetup) {
+      setup(context);
+    }
+  }
+
   void setup(BuildContext context) {
+    locator.get<AppProvider>()._user = _user;
+
     try {} catch (e) {
       Helpers.logc("here $e");
     }

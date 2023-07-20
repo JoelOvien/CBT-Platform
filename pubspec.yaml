@@ -30,7 +30,7 @@ dependencies:
 
   # Network and API
   cached_network_image: ^3.2.0
-  http: ^0.13.5
+  http: ^1.1.0
 
   #DB
   hive: ^2.2.3

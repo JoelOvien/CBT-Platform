@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cbt_platform/core/app/domains/providers/app_provider.dart';
+import 'package:cbt_platform/utilities/service_locator.dart';
 import 'package:cbt_platform/utilities/snack_bar_util.dart';
 import 'package:http/http.dart' as http;
 import 'package:validators/sanitizers.dart';
@@ -19,7 +21,7 @@ class ApiClient {
     http.Client? client,
     accessToken,
     this.showError = true,
-  })  : accessToken = accessToken ?? "",
+  })  : accessToken = accessToken ?? locator.get<AppProvider>().user.accessToken,
         client = client ?? http.Client();
 
   int _sessionExpiredResponse = 0;
@@ -42,7 +44,7 @@ class ApiClient {
           'Authorization': 'Bearer $accessToken',
         },
       ).timeout(
-        const Duration(seconds: 45),
+        const Duration(seconds: 10),
         onTimeout: () {
           throw AppTimeoutException("Connection Timed Out");
         },
@@ -73,7 +75,7 @@ class ApiClient {
           'Authorization': 'Bearer $accessToken',
         },
       ).timeout(
-        const Duration(seconds: 45),
+        const Duration(seconds: 10),
         onTimeout: () {
           throw AppTimeoutException("Connection Timed Out");
         },
@@ -101,7 +103,7 @@ class ApiClient {
         body: json.encode(data),
       )
           .timeout(
-        const Duration(seconds: 45),
+        const Duration(seconds: 10),
         onTimeout: () {
           throw AppTimeoutException("Connection Timed Out");
         },
@@ -131,7 +133,7 @@ class ApiClient {
         body: json.encode(data),
       )
           .timeout(
-        const Duration(seconds: 45),
+        const Duration(seconds: 10),
         onTimeout: () {
           throw AppTimeoutException("Connection Timed Out");
         },
@@ -147,11 +149,7 @@ class ApiClient {
     final request = http.MultipartRequest('POST', Uri.parse(baseUrl + url));
 
     data.forEach((key, value) async {
-      if (value.runtimeType != Null &&
-          value.runtimeType != int &&
-          value.runtimeType != bool &&
-          value.runtimeType != String &&
-          value.runtimeType != double) {
+      if (value.runtimeType != Null && value.runtimeType != int && value.runtimeType != bool && value.runtimeType != String && value.runtimeType != double) {
         request.files.add(
           http.MultipartFile.fromBytes(
             key,
@@ -171,11 +169,12 @@ class ApiClient {
       'Content-Type': 'multipart/form-data',
       "Accept": "application/json",
       'Authorization': 'Bearer $accessToken',
+      "Access-Control-Allow-Origin": "*",
     });
     var responseJson;
     try {
       final res = await client.send(request).timeout(
-        const Duration(seconds: 45),
+        const Duration(seconds: 10),
         onTimeout: () {
           throw AppTimeoutException("Connection Timed Out");
         },
@@ -207,8 +206,7 @@ class ApiClient {
 
   dynamic _getResponse(http.Response response) {
     final code = response.statusCode;
-    if (response.body.contains("Access Token has expired") ||
-        response.body.contains("JWT Token is expired")) {
+    if (response.body.contains("Access Token has expired") || response.body.contains("JWT Token is expired")) {
       _sessionExpiredResponse += 1;
       if (_sessionExpiredResponse == 1) {
         SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, "Session Expired");
