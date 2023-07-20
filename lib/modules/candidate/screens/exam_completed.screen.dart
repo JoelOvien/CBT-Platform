@@ -1,18 +1,20 @@
+import 'package:cbt_platform/modules/authentication/domains/providers/login_provider.dart';
+import 'package:cbt_platform/modules/candidate/domains/providers/candidate_exam_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../theme/app_colors.dart';
 import '../../../theme/text_style_util.dart';
-import '../../../utilities/custom_navigator.dart';
 import '../../../utilities/margin_util.dart';
 import '../../../utilities/widgets/custom_button.dart';
-import 'result_emailed_success.screen.dart';
 
-class ExamCompletedScreen extends StatelessWidget {
+class ExamCompletedScreen extends ConsumerWidget {
   static const String routeName = "/exam-completed";
   const ExamCompletedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final candidateExamController = ref.watch(candidateExamProvider);
     return Scaffold(
       body: Center(
         child: Column(
@@ -30,23 +32,15 @@ class ExamCompletedScreen extends StatelessWidget {
               style: normalStyle(24, AppColors.grey54),
             ),
             Text(
-              "37/50",
+              "${candidateExamController.userScore}/${candidateExamController.returnedResult.length}",
               style: boldStyle(40, AppColors.brandBlue),
             ),
             const YMargin(40),
             Button(
               function: () {
-                CustomNavigator.route(context, ResultEmailedSuccessScreen.routeName);
+                ref.read(loginProvider).logOut(context);
               },
-              text: "Emain my result to me",
-            ),
-            const YMargin(20),
-            Button(
-              function: () {},
-              text: "Send to another email",
-              backgroundColor: AppColors.white,
-              textColor: AppColors.brandBlue,
-              borderColor: AppColors.brandBlue,
+              text: "Log Out",
             ),
           ],
         ),

@@ -88,4 +88,28 @@ class CandidateRepository extends BaseRepository {
       return showError(e);
     }
   }
+
+  Future<RequestRes> fetchScore({
+    required String userID,
+    required String accessToken,
+    required String courseCode,
+    required String semester,
+    required String session,
+  }) async {
+    final client = locator.get<ApiClient>();
+
+    try {
+      client.accessToken = accessToken;
+      final List<dynamic> response = await client
+          .get(
+            "${AppEndpoints.examBank}?courseCode=$courseCode&semester=$semester&session=$session&userID=$userID",
+          )
+          .then((response) => response["questions"]);
+      final List<AnswerBankModel> questions = response.map<AnswerBankModel>((e) => AnswerBankModel.fromJson(e)).toList();
+
+      return RequestRes(response: questions);
+    } catch (e) {
+      return showError(e);
+    }
+  }
 }

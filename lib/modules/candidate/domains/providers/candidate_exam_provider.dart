@@ -28,13 +28,15 @@ class CandidateExamProvider extends ChangeNotifier {
   bool _loadingSubmission = false;
 
   int _selectedQuestionNumber = 0;
+  int _userScore = 0;
 
   RegisteredCoursesModel _selectedCourse = RegisteredCoursesModel();
 
   List<RegisteredCoursesModel> registeredCourses = [];
   List<QuestionBankModel> questionsBank = [];
   List<AnswerBankModel> answerBank = [];
-  List<String> selectedQuestionOptions = [];
+  List<AnswerBankModel> returnedResult = [];
+  List<String> selectedQuestionOptions = ['', '', '', ''];
 
   bool get loading => _loading;
   bool get loadingRegisteredCourses => _loadingRegisteredCourses;
@@ -42,12 +44,9 @@ class CandidateExamProvider extends ChangeNotifier {
   bool get loadingSubmission => _loadingSubmission;
 
   int get selectedQuestionNumber => _selectedQuestionNumber;
+  int get userScore => _userScore;
 
   RegisteredCoursesModel get selectedCourse => _selectedCourse;
-
-  void addAnswer(AnswerBankModel answer) {
-    answerBank.add(answer);
-  }
 
   set selectedCourse(RegisteredCoursesModel state) {
     _selectedCourse = state;
@@ -61,39 +60,19 @@ class CandidateExamProvider extends ChangeNotifier {
     populateQuestionOptions();
   }
 
-  void populateQuestionOptions() {
-    if (questionsBank[selectedQuestionNumber].answerTypeID == "1") {
-      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer1 ?? "");
-      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer2 ?? "");
-      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer3 ?? "");
-      selectedQuestionOptions.add(questionsBank[selectedQuestionNumber].answer4 ?? "");
-    }
+  set userScore(int state) {
+    _userScore = state;
     notifyListeners();
   }
 
-  int linearCongruential(int seed, int a, int c, int m) {
-    return (a * seed + c) % m;
-  }
-
-  List<String> randomizedOptionList(List<String> inputList, int seed) {
-    const int a = 1664525;
-    const int c = 1013904223;
-    const int m = 2147483647;
-
-    final List<String> randomizedList = List.from(inputList);
-    final int length = randomizedList.length;
-
-    for (int i = 0; i < length; i++) {
-      seed = linearCongruential(seed, a, c, m);
-      final int randomIndex = seed % length;
-
-      // Swap elements to shuffle the list
-      final String temp = randomizedList[i];
-      randomizedList[i] = randomizedList[randomIndex];
-      randomizedList[randomIndex] = temp;
+  void populateQuestionOptions() {
+    if (questionsBank[selectedQuestionNumber].answerTypeID == "1") {
+      selectedQuestionOptions.insert(0, questionsBank[selectedQuestionNumber].answer1 ?? "");
+      selectedQuestionOptions.insert(1, questionsBank[selectedQuestionNumber].answer2 ?? "");
+      selectedQuestionOptions.insert(2, questionsBank[selectedQuestionNumber].answer3 ?? "");
+      selectedQuestionOptions.insert(3, questionsBank[selectedQuestionNumber].answer4 ?? "");
     }
-
-    return randomizedList;
+    notifyListeners();
   }
 
   set loadingQuestions(bool state) {
@@ -179,12 +158,50 @@ class CandidateExamProvider extends ChangeNotifier {
       if (res.hasError()) {
         SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, res.error!.message);
       } else {
+        await fetchScore();
         CustomNavigator.routeForEver(navigatorKey.currentState!.context, ExamCompletedScreen.routeName);
       }
       loadingSubmission = false;
     } catch (e) {
       loadingSubmission = false;
       Helpers.logc(e);
+    }
+  }
+
+  int calculateCorrectAnswers(List<AnswerBankModel> answers) {
+    // Use the fold method to iterate over the list and accumulate the correct answers count
+    return answers.fold(0, (count, answer) {
+      // Use the where method to filter the list for correct answers (answerMark == 1)
+      return count + (answer.answerMark == 1 ? 1 : 0);
+    });
+  }
+
+  Future<void> fetchScore() async {
+    try {
+      final user = ref.read(appProvider).user;
+      loadingQuestions = true;
+      final RequestRes res = await locator.get<CandidateRepository>().fetchScore(
+            userID: user.data!.userID ?? "",
+            accessToken: user.accessToken ?? "",
+            courseCode: selectedCourse.courseCode ?? "",
+            semester: "S",
+            session: "2022/2023",
+          );
+      loadingQuestions = false;
+
+      if (res.hasError()) {
+        SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, res.error!.message);
+      } else {
+        returnedResult.clear();
+        returnedResult.addAll(res.response as List<AnswerBankModel>);
+
+        // Call the calculateCorrectAnswers function to get the count of correct answers
+        userScore = calculateCorrectAnswers(returnedResult);
+        notifyListeners();
+      }
+    } catch (e) {
+      Helpers.logc(e);
+      loadingQuestions = false;
     }
   }
 }

@@ -272,26 +272,32 @@ class _ExamHomeScreenState extends ConsumerState<ExamHomeScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Button(
-                                      borderRadius: 100,
-                                      text: "Previous",
-                                      function: () {
-                                        if (candidateExamController.selectedQuestionNumber > 0) {
-                                          candidateExamController.selectedQuestionNumber--;
-                                        }
-                                      },
-                                      width: screenWidth(context, percent: .100),
-                                    ),
-                                    Button(
-                                      borderRadius: 100,
-                                      text: "Next",
-                                      function: () {
-                                        if (candidateExamController.selectedQuestionNumber != candidateExamController.questionsBank.length - 1) {
-                                          candidateExamController.selectedQuestionNumber++;
-                                        }
-                                      },
-                                      width: 150,
-                                    ),
+                                    if (candidateExamController.selectedQuestionNumber > 0)
+                                      Button(
+                                        borderRadius: 100,
+                                        text: "Previous",
+                                        function: () {
+                                          if (candidateExamController.selectedQuestionNumber > 0) {
+                                            candidateExamController.selectedQuestionNumber--;
+                                          }
+                                        },
+                                        width: screenWidth(context, percent: .100),
+                                      )
+                                    else
+                                      const SizedBox.shrink(),
+                                    if (candidateExamController.selectedQuestionNumber != candidateExamController.questionsBank.length - 1)
+                                      Button(
+                                        borderRadius: 100,
+                                        text: "Next",
+                                        function: () {
+                                          if (candidateExamController.selectedQuestionNumber != candidateExamController.questionsBank.length - 1) {
+                                            candidateExamController.selectedQuestionNumber++;
+                                          }
+                                        },
+                                        width: 150,
+                                      )
+                                    else
+                                      const SizedBox.shrink(),
                                   ],
                                 ),
                               ],

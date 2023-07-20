@@ -10,4 +10,6 @@ class AppEndpoints {
 
   // Answers
   static const String submitAnswers = 'exam-bank/';
+
+  static const String examBank = 'exam-bank/';
 }

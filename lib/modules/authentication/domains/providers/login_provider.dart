@@ -16,6 +16,7 @@ import '../../../../utilities/service_locator.dart';
 import '../../../../utilities/snack_bar_util.dart';
 import '../../../admin/views/examiner_screen.dart';
 import '../../repository/auth_repository.dart';
+import '../../screens/login.screen.dart';
 
 ChangeNotifierProvider<LoginProvider> loginProvider = ChangeNotifierProvider((ref) => LoginProvider(ref: ref));
 
@@ -92,5 +93,12 @@ class LoginProvider extends ChangeNotifier {
         }
       }
     }
+  }
+
+  Future<void> logOut(BuildContext context) async {
+    for (final repo in repositories) {
+      await repo.clear(ref);
+    }
+    CustomNavigator.route(context, LoginScreen.routeName);
   }
 }
