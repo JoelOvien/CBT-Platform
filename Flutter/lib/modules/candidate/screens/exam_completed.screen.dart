@@ -27,7 +27,7 @@ class ExamCompletedScreen extends ConsumerWidget {
             ),
             const YMargin(24),
             Text(
-              "Your exam has been submitted\nsuccessfully! You scored ",
+              "Your exam has been submitted\nsuccessfully! You scored",
               textAlign: TextAlign.center,
               style: normalStyle(24, AppColors.grey54),
             ),

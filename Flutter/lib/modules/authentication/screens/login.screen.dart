@@ -56,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: "Password",
                 controller: password,
                 hintText: 'min. 8 characters',
+                hide: true,
                 validator: (_) {
                   if (_!.isEmpty || _.length < 8) {
                     return "Password length should be more than 8";

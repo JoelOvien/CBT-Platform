@@ -65,13 +65,40 @@ class CandidateExamProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int linearCongruential(int seed, int a, int c, int m) {
+    return (a * seed + c) % m;
+  }
+
+  List<String> randomizeList(List<String> inputList, int seed) {
+    const int a = 1664525;
+    const int c = 1013904223;
+    const int m = 2147483647;
+
+    final List<String> randomizedList = List.from(inputList);
+    final int length = randomizedList.length;
+
+    for (int i = 0; i < length; i++) {
+      seed = linearCongruential(seed, a, c, m);
+      final int randomIndex = seed % length;
+
+      // Swap elements to shuffle the list
+      final String temp = randomizedList[i];
+      randomizedList[i] = randomizedList[randomIndex];
+      randomizedList[randomIndex] = temp;
+    }
+
+    return randomizedList;
+  }
+
   void populateQuestionOptions() {
     if (questionsBank[selectedQuestionNumber].answerTypeID == "1") {
-      selectedQuestionOptions.insert(0, questionsBank[selectedQuestionNumber].answer1 ?? "");
-      selectedQuestionOptions.insert(1, questionsBank[selectedQuestionNumber].answer2 ?? "");
-      selectedQuestionOptions.insert(2, questionsBank[selectedQuestionNumber].answer3 ?? "");
-      selectedQuestionOptions.insert(3, questionsBank[selectedQuestionNumber].answer4 ?? "");
+      selectedQuestionOptions[0] = questionsBank[selectedQuestionNumber].answer1 ?? "";
+      selectedQuestionOptions[1] = questionsBank[selectedQuestionNumber].answer2 ?? "";
+      selectedQuestionOptions[2] = questionsBank[selectedQuestionNumber].answer3 ?? "";
+      selectedQuestionOptions[3] = questionsBank[selectedQuestionNumber].answer4 ?? "";
+      selectedQuestionOptions = randomizeList(selectedQuestionOptions, DateTime.now().millisecondsSinceEpoch);
     }
+
     notifyListeners();
   }
 
@@ -156,7 +183,7 @@ class CandidateExamProvider extends ChangeNotifier {
       loadingQuestions = false;
 
       if (res.hasError()) {
-        SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, res.error!.message);
+        SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, 'You are expected to answer all questions');
       } else {
         await fetchScore();
         CustomNavigator.routeForEver(navigatorKey.currentState!.context, ExamCompletedScreen.routeName);
