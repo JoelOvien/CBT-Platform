@@ -73,6 +73,6 @@ app.*.map.json
 /android/app/release
 .flutter-plugins-dependencies
 android/.gradle
-.dart_tool
+.dart_tool/
 
 .DS_Store
